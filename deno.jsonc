@@ -3,10 +3,10 @@
   "version": "0.0.0",
   "exports": {
     ".": "./mod.ts",
-    "./action-picker-params": "./action_picker_params.ts",
+    "./action-picker": "./action_picker.ts",
     "./derivable": "./derivable.ts",
     "./global-config": "./global_config.ts",
-    "./item-picker-params": "./item_picker_params.ts"
+    "./item-picker": "./item_picker.ts"
   },
   "publish": {
     "include": [
