@@ -1,0 +1,35 @@
+{
+  "name": "@vim-fall/config",
+  "version": "0.0.0",
+  "exports": {
+    ".": "./mod.ts",
+    "./action_picker": "./action_picker.ts",
+    "./derivable": "./derivable.ts",
+    "./global_config": "./global_config.ts",
+    "./item_picker": "./item_picker.ts"
+  },
+  "publish": {
+    "include": [
+      "**/*.ts",
+      "README.md",
+      "LICENSE"
+    ],
+    "exclude": [
+      "*_test.ts",
+      "*_bench.ts"
+    ]
+  },
+  "tasks": {
+    "check": "deno check ./**/*.ts",
+    "test": "deno test -A --parallel --shuffle --doc",
+    "test:coverage": "deno task test --coverage=.coverage",
+    "coverage": "deno coverage .coverage --exclude=testdata/",
+    "update": "deno run --allow-env --allow-read --allow-write=. --allow-run=git,deno --allow-net=deno.land,jsr.io,registry.npmjs.org jsr:@molt/cli ./**/*.ts",
+    "update:write": "deno task -q update --write",
+    "update:commit": "deno task -q update --commit --prefix :package: --pre-commit=fmt,lint"
+  },
+  "imports": {
+    "@denops/std": "jsr:@denops/std@^7.3.2",
+    "@vim-fall/core": "jsr:@vim-fall/core@^0.2.1"
+  }
+}
