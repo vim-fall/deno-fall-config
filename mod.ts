@@ -2,8 +2,8 @@ import type { Denops } from "@denops/std";
 import type {
   DefineItemPickerFromCurator,
   DefineItemPickerFromSource,
-} from "./item_picker_params.ts";
-import type { RefineActionPicker } from "./action_picker_params.ts";
+} from "./item_picker.ts";
+import type { RefineActionPicker } from "./action_picker.ts";
 import type { RefineGlobalConfig } from "./global_config.ts";
 
 /**
@@ -22,6 +22,6 @@ export type Entrypoint = (params: {
 export type {
   DefineItemPickerFromCurator,
   DefineItemPickerFromSource,
-} from "./item_picker_params.ts";
-export type { RefineActionPicker } from "./action_picker_params.ts";
+} from "./item_picker.ts";
+export type { RefineActionPicker } from "./action_picker.ts";
 export type { RefineGlobalConfig } from "./global_config.ts";
