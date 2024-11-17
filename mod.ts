@@ -1,10 +1,10 @@
 import type { Denops } from "@denops/std";
 import type {
-  DefineItemPickerFromCurator,
-  DefineItemPickerFromSource,
-} from "./item_picker.ts";
+  DefinePickerFromCurator,
+  DefinePickerFromSource,
+} from "./picker.ts";
 import type { RefineActionPicker } from "./action_picker.ts";
-import type { RefineGlobalConfig } from "./global_config.ts";
+import type { RefineSetting } from "./setting.ts";
 
 /**
  * The entrypoint for configuring the picker environment.
@@ -13,15 +13,15 @@ import type { RefineGlobalConfig } from "./global_config.ts";
  */
 export type Entrypoint = (params: {
   denops: Denops;
-  defineItemPickerFromSource: DefineItemPickerFromSource;
-  defineItemPickerFromCurator: DefineItemPickerFromCurator;
+  definePickerFromSource: DefinePickerFromSource;
+  definePickerFromCurator: DefinePickerFromCurator;
   refineActionPicker: RefineActionPicker;
-  refineGlobalConfig: RefineGlobalConfig;
+  refineSetting: RefineSetting;
 }) => void | Promise<void>;
 
 export type {
-  DefineItemPickerFromCurator,
-  DefineItemPickerFromSource,
-} from "./item_picker.ts";
+  DefinePickerFromCurator,
+  DefinePickerFromSource,
+} from "./picker.ts";
 export type { RefineActionPicker } from "./action_picker.ts";
-export type { RefineGlobalConfig } from "./global_config.ts";
+export type { RefineSetting } from "./setting.ts";

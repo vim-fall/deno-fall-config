@@ -29,7 +29,7 @@ type Actions<T extends Detail = Detail, A extends string = string> =
  * @template T - The type of items in the picker.
  * @template A - The type representing the default action name.
  */
-export type ItemPickerParams<
+export type PickerParams<
   T extends Detail = Detail,
   A extends string = string,
 > = {
@@ -51,7 +51,7 @@ export type ItemPickerParams<
  * @template T - The type of items handled by the picker.
  * @template A - The type representing the default action name.
  */
-export type DefineItemPickerFromSource = <T extends Detail, A extends string>(
+export type DefinePickerFromSource = <T extends Detail, A extends string>(
   name: string,
   source: Derivable<Source<T>>,
   params: {
@@ -74,7 +74,7 @@ export type DefineItemPickerFromSource = <T extends Detail, A extends string>(
  * @template T - The type of items handled by the picker.
  * @template A - The type representing the default action name.
  */
-export type DefineItemPickerFromCurator = <T extends Detail, A extends string>(
+export type DefinePickerFromCurator = <T extends Detail, A extends string>(
   name: string,
   curator: Derivable<Curator<T>>,
   params: {
@@ -91,29 +91,17 @@ export type DefineItemPickerFromCurator = <T extends Detail, A extends string>(
 /**
  * Builds a function to define an item picker based on a source and matchers with the given map.
  *
- * @param itemPickerParamsMap - The map to store the defined item pickers.
+ * @param pickerParamsMap - The map to store the defined item pickers.
  * @returns The function to define an item picker based on a source and matchers.
  */
-export function buildDefineItemPickerFromSource(
-  itemPickerParamsMap: Map<string, ItemPickerParams<Detail>>,
-): DefineItemPickerFromSource {
-  function validatePickerName(name: string): void {
-    if (itemPickerParamsMap.has(name)) {
-      throw new Error(`Item picker "${name}" is already defined.`);
-    }
-    if (name.startsWith("@")) {
-      throw new Error(`Name "${name}" must not start with "@".`);
-    }
-  }
+export function buildDefinePickerFromSource(
+  pickerParamsMap: Map<string, PickerParams<Detail>>,
+): DefinePickerFromSource {
   return (
     name,
     source,
     params,
   ) => {
-    if (itemPickerParamsMap.has(name)) {
-      throw new Error(`Item picker "${name}" is already defined.`);
-    }
-    validatePickerName(name);
     const derivedParams = omitUndefinedAttributes({
       actions: deriveMap(params.actions) as Actions,
       defaultAction: params.defaultAction,
@@ -126,38 +114,28 @@ export function buildDefineItemPickerFromSource(
       coordinator: derive(params.coordinator),
       theme: derive(params.theme),
     });
-    validateActions(derivedParams.actions);
-    itemPickerParamsMap.set(name, {
+    pickerParamsMap.set(name, {
       ...derivedParams,
       name,
       source: derive(source),
-    } as ItemPickerParams<Detail, string>);
+    } as PickerParams<Detail, string>);
   };
 }
 
 /**
  * Builds a function to define an item picker based on a curator with the given map.
  *
- * @param itemPickerParamsMap - The map to store the defined item pickers.
+ * @param pickerParamsMap - The map to store the defined item pickers.
  * @returns The function to define an item picker based on a curator.
  */
-export function buildDefineItemPickerFromCurator(
-  itemPickerParamsMap: Map<string, ItemPickerParams<Detail>>,
-): DefineItemPickerFromCurator {
-  function validatePickerName(name: string): void {
-    if (itemPickerParamsMap.has(name)) {
-      throw new Error(`Item picker "${name}" is already defined.`);
-    }
-    if (name.startsWith("@")) {
-      throw new Error(`Name "${name}" must not start with "@".`);
-    }
-  }
+export function buildDefinePickerFromCurator(
+  pickerParamsMap: Map<string, PickerParams<Detail>>,
+): DefinePickerFromCurator {
   return (
     name,
     curator,
     params,
   ) => {
-    validatePickerName(name);
     const source = new CuratorSourceMatcher(derive(curator));
     const derivedParams = omitUndefinedAttributes({
       actions: deriveMap(params.actions) as Actions,
@@ -170,8 +148,7 @@ export function buildDefineItemPickerFromCurator(
       coordinator: derive(params.coordinator),
       theme: derive(params.theme),
     });
-    validateActions(derivedParams.actions);
-    itemPickerParamsMap.set(name, {
+    pickerParamsMap.set(name, {
       ...derivedParams,
       name,
       source,
@@ -230,12 +207,4 @@ function omitUndefinedAttributes<
   return Object.fromEntries(
     Object.entries(map).filter(([, v]) => v !== undefined),
   ) as R;
-}
-
-function validateActions(actions: Record<string, Action>): void {
-  Object.entries(actions).forEach(([name, _action]) => {
-    if (name.startsWith("@")) {
-      throw new Error(`Action name "${name}" must not start with "@".`);
-    }
-  });
 }

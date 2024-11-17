@@ -1,12 +1,12 @@
 {
-  "name": "@vim-fall/config",
+  "name": "@vim-fall/custom",
   "version": "0.0.0",
   "exports": {
     ".": "./mod.ts",
     "./action-picker": "./action_picker.ts",
     "./derivable": "./derivable.ts",
-    "./global-config": "./global_config.ts",
-    "./item-picker": "./item_picker.ts"
+    "./picker": "./picker.ts",
+    "./setting": "./setting.ts"
   },
   "publish": {
     "include": [
